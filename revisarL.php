@@ -1,50 +1,62 @@
 <?php
-include 'conexion.php'; // Incluye tu archivo de conexión a la base de datos
+session_start();
+include "conexion.php";
 
 // Obtener datos del formulario
-$nombre = $_POST['nombre'];
-$apellido = $_POST['apellido'];
 $email = $_POST['email'];
-$DPI = $_POST['DPI']; // Aunque no lo uses en la tabla, puedes validar si lo necesitas
-$telefono = $_POST['telefono'];
-$contraseña = md5($_POST['contraseña']); // Asegúrate de cifrar la contraseña de forma segura
-$rol = $_POST['rol']; // Campo para seleccionar el rol del usuario
+$password = $_POST['password'];
 
-// Validar que el DPI tenga 13 dígitos
-if (strlen($DPI) !== 13 || !ctype_digit($DPI)) {
-    echo "Error: El número de DPI debe tener exactamente 13 dígitos.";
-    exit;
-}
+// Cifrar la contraseña para la comparación
+$hashed_password = md5($password);
 
-// Validar que el rol sea uno de los valores permitidos
-$roles_permitidos = ['administrador', 'empleado', 'cliente'];
-if (!in_array($rol, $roles_permitidos)) {
-    echo "Error: Rol no válido.";
-    exit;
-}
-
-// Preparar la consulta SQL para insertar los datos
-$sql = "INSERT INTO usuarios (nombre, apellido, email, telefono, rol, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+// Verificar si el email y la contraseña coinciden en la base de datos
+$sql = "SELECT * FROM usuarios WHERE email = ? AND contraseña = ?";
 $stmt = $conn->prepare($sql);
+$stmt->bind_param("ss", $email, $hashed_password);
+$stmt->execute();
+$result = $stmt->get_result();
 
-// Verificar si la preparación fue exitosa
-if ($stmt) {
-    // Vincular los parámetros y ejecutar la consulta
-    $stmt->bind_param("ssssss", $nombre, $apellido, $email, $telefono, $rol, $contraseña);
+if ($result->num_rows === 1) {
+    $user = $result->fetch_assoc();
+    $_SESSION['id'] = $user['id'];
+    $_SESSION['nombre'] = $user['nombre'];
+    $_SESSION['rol'] = $user['rol'];
 
-    if ($stmt->execute()) {
-        echo "Usuario registrado con éxito.";
-        header("Location: index.html"); // Redirige a la página principal después de registrar
-    } else {
-        echo "Error al registrar usuario: " . $stmt->error;
+    // Redirigir según el rol
+    if ($user['rol'] === 'administrador') {
+        header("Location: registroE.php");
+    } elseif ($user['rol'] === 'empleado') {
+        header("Location: empleado.php");
+    } elseif ($user['rol'] === 'cliente') {
+        header("Location: cliente.php");
     }
-
-    // Cerrar la declaración
-    $stmt->close();
+    exit();
 } else {
-    echo "Error al preparar la consulta: " . $conn->error;
+    $mensaje = "Email o contraseña incorrectos.";
 }
 
-// Cerrar la conexión
+$stmt->close();
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado del Inicio de Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="alert alert-danger text-center" role="alert">
+                <?php echo isset($mensaje) ? $mensaje : ''; ?>
+            </div>
+            <div class="text-center mt-3">
+                <a href="index.html" class="btn btn-primary">Regresar</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

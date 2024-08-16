@@ -18,17 +18,18 @@
                         <li class="nav-item">
                             <a class="nav-link" href="registroE.php">empleados</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="pagina2.php">clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pagina3.php">registrar libros</a>
+                            <a class="nav-link" href="registrarL.php">registrar libros</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="pagina4.php">registro de prestamos </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="pagina5.php">historial de prestamos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="cerrar.php">cerrar sesion</a>
                         </li>
                     </ul>
                 </div>
