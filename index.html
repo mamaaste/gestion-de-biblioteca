@@ -21,36 +21,30 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            border: #c32424;
         }
         .login-box {
-            width: 100%;
-            max-width: 400px;
+            width: 300px;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
+            border: 1px solid #ad0f0f;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-box">
-            <h2 class="text-center">Iniciar Sesión</h2>
+            <h2 class="text-center">Inicio de Sesión</h2>
             <form action="revisarL.php" method="post">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
-                    <label for="DPI" class="form-label">Número de DPI:</label>
-                    <input type="text" id="DPI" name="DPI" class="form-control" pattern="\d{13}" maxlength="13" required>
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-                <div class="text-center mt-3">
-                    <button onclick="location.href='codigo.php'" class="btn btn-secondary">Registro empleados</button>
-                
-                </div>
+                <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
             </form>
         </div>
     </div>
