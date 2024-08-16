@@ -42,10 +42,7 @@
                 <button type="submit" class="btn btn-primary btn-block">Registrar Empleado</button>
             </form>
 
-            <div class="text-center mt-3">
-                <button onclick="location.href='registro_v.php'" class="btn btn-secondary">Registro de Viajes</button>
-                <button onclick="location.href='ver_viajes.php'" class="btn btn-secondary">Ver Viajes</button>
-            </div>
+            
         </div>
     </div>
     
